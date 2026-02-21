@@ -115,6 +115,7 @@ class GrappleDogWorld(World):
         for i in range(self.options.starting_health.value):
             self.multiworld.push_precollected(self.create_item('Max Health Up'))
         if(self.options.boss_level_unlock == 0):
+            self.options.starting_levels.value = min(self.options.starting_levels.value, 51)
             self.multiworld.push_precollected(self.create_item('Level 1-B'))
             levels_to_pick_from.remove('Level 1-B')
             self.multiworld.push_precollected(self.create_item('Level 2-B'))
