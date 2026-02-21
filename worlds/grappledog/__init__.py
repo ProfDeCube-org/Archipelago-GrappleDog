@@ -55,20 +55,12 @@ class GrappleDogWorld(World):
     
 
     def generate_early(self):
-        if(self.options.gems_for_boss_one.value < self.options.minimum_gems_in_pool.value):
-            raise OptionError("Minimum gems in pool should be greater than Boss gem requirements. (Boss 1)")
-        
-        if(self.options.gems_for_boss_two.value < self.options.minimum_gems_in_pool.value):
-            raise OptionError("Minimum gems in pool should be greater than Boss gem requirements. (Boss 2)")
-        
-        if(self.options.gems_for_boss_three.value < self.options.minimum_gems_in_pool.value):
-            raise OptionError("Minimum gems in pool should be greater than Boss gem requirements. (Boss 3)")
-        
-        if(self.options.gems_for_boss_four.value < self.options.minimum_gems_in_pool.value):
-            raise OptionError("Minimum gems in pool should be greater than Boss gem requirements. (Boss 4)")
-        
-        if(self.options.gems_for_boss_five.value < self.options.minimum_gems_in_pool.value):
-            raise OptionError("Minimum gems in pool should be greater than Boss gem requirements. (Boss 5)")
+        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_one.value)
+        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_two.value)
+        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_three.value)
+        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_four.value)
+        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_five.value)
+
 
     def fill_slot_data(self):
             """
@@ -216,4 +208,4 @@ class GrappleDogWorld(World):
         create_rules(self)
 
     def get_filler_item_name(self) -> str:
-        return "Dog Biscuit"
+        return "Dog Biscuit"        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_one.value)

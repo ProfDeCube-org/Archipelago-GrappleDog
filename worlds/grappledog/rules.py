@@ -346,119 +346,120 @@ def create_rules(world: "GrappleDogWorld"):
         
     multiworld = world.multiworld
     player = world.player
+    options = world.options
     if(world.options.speedrunner_count_one.value > 0):
-        multiworld.get_location('Speedrun (1 Gold)', player).access_rule = lambda state: state.has_group("Levels", world.player, max(0, min(33, world.options.speedrunner_count_one.value * 3))) & evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
+        multiworld.get_location('Speedrun (1 Gold)', player).access_rule = lambda state, player=player, options=options: state.has_group("Levels", player, max(0, min(33, options.speedrunner_count_one.value * 3))) & evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
         
     if(world.options.speedrunner_count_two.value > 0):
-        multiworld.get_location('Speedrun (2 Gold)', player).access_rule = lambda state: state.has_group("Levels", world.player, max(0, min(33, world.options.speedrunner_count_two.value * 3))) & evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
+        multiworld.get_location('Speedrun (2 Gold)', player).access_rule = lambda state, player=player, options=options: state.has_group("Levels", player, max(0, min(33, options.speedrunner_count_two.value * 3))) & evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
         
     if(world.options.speedrunner_count_three.value > 0):
-        multiworld.get_location('Speedrun (3 Gold)', player).access_rule = lambda state: state.has_group("Levels", world.player, max(0, min(33, world.options.speedrunner_count_three.value * 3))) & evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
+        multiworld.get_location('Speedrun (3 Gold)', player).access_rule = lambda state, player=player, options=options: state.has_group("Levels", player, max(0, min(33, options.speedrunner_count_three.value * 3))) & evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
 
     multiworld.get_region("Menu", player).add_exits(['Game'])
     multiworld.get_region("Game", player).add_exits(
         [ "World 1", "World 2", "World 3", "World 4", "World 5", "World 6" ],
         {
-            "World 1": lambda state: world.options.level_progression.value == 0 or state.has("World 1", player),
-            "World 2": lambda state: world.options.level_progression.value == 0 or state.has("World 2", player),
-            "World 3": lambda state: world.options.level_progression.value == 0 or state.has("World 3", player),
-            "World 4": lambda state: world.options.level_progression.value == 0 or state.has("World 4", player),
-            "World 5": lambda state: world.options.level_progression.value == 0 or state.has("World 5", player),
-            "World 6": lambda state: world.options.level_progression.value == 0 or state.has("World 6", player)
+            "World 1": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 1", player),
+            "World 2": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 2", player),
+            "World 3": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 3", player),
+            "World 4": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 4", player),
+            "World 5": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 5", player),
+            "World 6": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 6", player)
         }
     )
     
     multiworld.get_region("World 1", player).add_exits(
         [ "Level 1-1", "Level 1-2" , "Level 1-3" , "Level 1-4" ,"Level 1-5" , "Level 1-B" , "Bonus 1-1" , "Bonus 1-2" , "Bonus 1-3" , "Bonus 1-4" ],
         {
-            "Level 1-1": lambda state: state.has("Level 1-1", player),
-            "Level 1-2": lambda state: state.has("Level 1-2", player),
-            "Level 1-3": lambda state: state.has("Level 1-3", player),
-            "Level 1-4": lambda state: state.has("Level 1-4", player),
-            "Level 1-5": lambda state: state.has("Level 1-5", player),
-            "Level 1-B": lambda state: boss_level_requirements_met(state, player, 1, world.options),
-            "Bonus 1-1": lambda state: state.has("Bonus 1-1", player),
-            "Bonus 1-2": lambda state: state.has("Bonus 1-2", player),
-            "Bonus 1-3": lambda state: state.has("Bonus 1-3", player),
-            "Bonus 1-4": lambda state: state.has("Bonus 1-4", player),
+            "Level 1-1": lambda state, player=player: state.has("Level 1-1", player),
+            "Level 1-2": lambda state, player=player: state.has("Level 1-2", player),
+            "Level 1-3": lambda state, player=player: state.has("Level 1-3", player),
+            "Level 1-4": lambda state, player=player: state.has("Level 1-4", player),
+            "Level 1-5": lambda state, player=player: state.has("Level 1-5", player),
+            "Level 1-B": lambda state, player=player, options=options: boss_level_requirements_met(state, player, 1, options),
+            "Bonus 1-1": lambda state, player=player: state.has("Bonus 1-1", player),
+            "Bonus 1-2": lambda state, player=player: state.has("Bonus 1-2", player),
+            "Bonus 1-3": lambda state, player=player: state.has("Bonus 1-3", player),
+            "Bonus 1-4": lambda state, player=player: state.has("Bonus 1-4", player),
         }
     )
     
     multiworld.get_region("World 2", player).add_exits(
         [ "Level 2-1", "Level 2-2" , "Level 2-3" , "Level 2-4" ,"Level 2-5" , "Level 2-B" , "Bonus 2-1" , "Bonus 2-2" , "Bonus 2-3" , "Bonus 2-4"  ],
         {
-            "Level 2-1": lambda state: state.has("Level 2-1", player),
-            "Level 2-2": lambda state: state.has("Level 2-2", player),
-            "Level 2-3": lambda state: state.has("Level 2-3", player),
-            "Level 2-4": lambda state: state.has("Level 2-4", player),
-            "Level 2-5": lambda state: state.has("Level 2-5", player),
-            "Level 2-B": lambda state: boss_level_requirements_met(state, player, 2, world.options),
-            "Bonus 2-1": lambda state: state.has("Bonus 2-1", player),
-            "Bonus 2-2": lambda state: state.has("Bonus 2-2", player),
-            "Bonus 2-3": lambda state: state.has("Bonus 2-3", player),
-            "Bonus 2-4": lambda state: state.has("Bonus 2-4", player),
+            "Level 2-1": lambda state, player=player: state.has("Level 2-1", player),
+            "Level 2-2": lambda state, player=player: state.has("Level 2-2", player),
+            "Level 2-3": lambda state, player=player: state.has("Level 2-3", player),
+            "Level 2-4": lambda state, player=player: state.has("Level 2-4", player),
+            "Level 2-5": lambda state, player=player: state.has("Level 2-5", player),
+            "Level 2-B": lambda state, player=player, options=options: boss_level_requirements_met(state, player, 2, options),
+            "Bonus 2-1": lambda state, player=player: state.has("Bonus 2-1", player),
+            "Bonus 2-2": lambda state, player=player: state.has("Bonus 2-2", player),
+            "Bonus 2-3": lambda state, player=player: state.has("Bonus 2-3", player),
+            "Bonus 2-4": lambda state, player=player: state.has("Bonus 2-4", player),
         }
     )
             
     multiworld.get_region("World 3", player).add_exits(
         [ "Level 3-1", "Level 3-2" , "Level 3-3" , "Level 3-4" ,"Level 3-5" , "Level 3-B" , "Bonus 3-1" , "Bonus 3-2" , "Bonus 3-3" , "Bonus 3-4"  ],
         {
-            "Level 3-1": lambda state: state.has("Level 3-1", player),
-            "Level 3-2": lambda state: state.has("Level 3-2", player),
-            "Level 3-3": lambda state: state.has("Level 3-3", player),
-            "Level 3-4": lambda state: state.has("Level 3-4", player),
-            "Level 3-5": lambda state: state.has("Level 3-5", player),
-            "Level 3-B": lambda state: boss_level_requirements_met(state, player, 3, world.options),
-            "Bonus 3-1": lambda state: state.has("Bonus 3-1", player),
-            "Bonus 3-2": lambda state: state.has("Bonus 3-2", player),
-            "Bonus 3-3": lambda state: state.has("Bonus 3-3", player),
-            "Bonus 3-4": lambda state: state.has("Bonus 3-4", player),
+            "Level 3-1": lambda state, player=player: state.has("Level 3-1", player),
+            "Level 3-2": lambda state, player=player: state.has("Level 3-2", player),
+            "Level 3-3": lambda state, player=player: state.has("Level 3-3", player),
+            "Level 3-4": lambda state, player=player: state.has("Level 3-4", player),
+            "Level 3-5": lambda state, player=player: state.has("Level 3-5", player),
+            "Level 3-B": lambda state, player=player, options=options: boss_level_requirements_met(state, player, 3, options),
+            "Bonus 3-1": lambda state, player=player: state.has("Bonus 3-1", player),
+            "Bonus 3-2": lambda state, player=player: state.has("Bonus 3-2", player),
+            "Bonus 3-3": lambda state, player=player: state.has("Bonus 3-3", player),
+            "Bonus 3-4": lambda state, player=player: state.has("Bonus 3-4", player),
         }
     )
     
     multiworld.get_region("World 4", player).add_exits(
         [ "Level 4-1", "Level 4-2" , "Level 4-3" , "Level 4-4" ,"Level 4-5" , "Level 4-B" , "Bonus 4-1" , "Bonus 4-2" , "Bonus 4-3" , "Bonus 4-4"  ],
         {
-            "Level 4-1": lambda state: state.has("Level 4-1", player),
-            "Level 4-2": lambda state: state.has("Level 4-2", player),
-            "Level 4-3": lambda state: state.has("Level 4-3", player),
-            "Level 4-4": lambda state: state.has("Level 4-4", player),
-            "Level 4-5": lambda state: state.has("Level 4-5", player),
-            "Level 4-B": lambda state: boss_level_requirements_met(state, player, 4, world.options),
-            "Bonus 4-1": lambda state: state.has("Bonus 4-1", player),
-            "Bonus 4-2": lambda state: state.has("Bonus 4-2", player),
-            "Bonus 4-3": lambda state: state.has("Bonus 4-3", player),
-            "Bonus 4-4": lambda state: state.has("Bonus 4-4", player),
+            "Level 4-1": lambda state, player=player: state.has("Level 4-1", player),
+            "Level 4-2": lambda state, player=player: state.has("Level 4-2", player),
+            "Level 4-3": lambda state, player=player: state.has("Level 4-3", player),
+            "Level 4-4": lambda state, player=player: state.has("Level 4-4", player),
+            "Level 4-5": lambda state, player=player: state.has("Level 4-5", player),
+            "Level 4-B": lambda state, player=player, options=options: boss_level_requirements_met(state, player, 4, options),
+            "Bonus 4-1": lambda state, player=player: state.has("Bonus 4-1", player),
+            "Bonus 4-2": lambda state, player=player: state.has("Bonus 4-2", player),
+            "Bonus 4-3": lambda state, player=player: state.has("Bonus 4-3", player),
+            "Bonus 4-4": lambda state, player=player: state.has("Bonus 4-4", player),
         }
     )
     
     multiworld.get_region("World 5", player).add_exits(
         [ "Level 5-1", "Level 5-2" , "Level 5-3" , "Level 5-4" ,"Level 5-5" , "Level 5-B" , "Bonus 5-1" , "Bonus 5-2" , "Bonus 5-3" , "Bonus 5-4"  ],
         {
-            "Level 5-1": lambda state: state.has("Level 5-1", player),
-            "Level 5-2": lambda state: state.has("Level 5-2", player),
-            "Level 5-3": lambda state: state.has("Level 5-3", player),
-            "Level 5-4": lambda state: state.has("Level 5-4", player),
-            "Level 5-5": lambda state: state.has("Level 5-5", player),
-            "Level 5-B": lambda state: boss_level_requirements_met(state, player, 5, world.options),
-            "Bonus 5-1": lambda state: state.has("Bonus 5-1", player),
-            "Bonus 5-2": lambda state: state.has("Bonus 5-2", player),
-            "Bonus 5-3": lambda state: state.has("Bonus 5-3", player),
-            "Bonus 5-4": lambda state: state.has("Bonus 5-4", player),
+            "Level 5-1": lambda state, player=player: state.has("Level 5-1", player),
+            "Level 5-2": lambda state, player=player: state.has("Level 5-2", player),
+            "Level 5-3": lambda state, player=player: state.has("Level 5-3", player),
+            "Level 5-4": lambda state, player=player: state.has("Level 5-4", player),
+            "Level 5-5": lambda state, player=player: state.has("Level 5-5", player),
+            "Level 5-B": lambda state, player=player, options=options: boss_level_requirements_met(state, player, 5, options),
+            "Bonus 5-1": lambda state, player=player: state.has("Bonus 5-1", player),
+            "Bonus 5-2": lambda state, player=player: state.has("Bonus 5-2", player),
+            "Bonus 5-3": lambda state, player=player: state.has("Bonus 5-3", player),
+            "Bonus 5-4": lambda state, player=player: state.has("Bonus 5-4", player),
         }
     )
                     
     multiworld.get_region("World 6", player).add_exits(
         [ "Level 6-1", "Level 6-2" , "Level 6-3" , "Bonus 6-1" , "Bonus 6-2" , "Bonus 6-3" ],
         {
-            "Level 6-1": lambda state: state.has("Level 6-1", player),
-            "Level 6-2": lambda state: state.has("Level 6-2", player),
-            "Level 6-3": lambda state: state.has("Level 6-3", player),
-            "Bonus 6-1": lambda state: state.has("Bonus 6-1", player),
-            "Bonus 6-2": lambda state: state.has("Bonus 6-2", player),
-            "Bonus 6-3": lambda state: state.has("Bonus 6-3", player),
+            "Level 6-1": lambda state, player=player: state.has("Level 6-1", player),
+            "Level 6-2": lambda state, player=player: state.has("Level 6-2", player),
+            "Level 6-3": lambda state, player=player: state.has("Level 6-3", player),
+            "Bonus 6-1": lambda state, player=player: state.has("Bonus 6-1", player),
+            "Bonus 6-2": lambda state, player=player: state.has("Bonus 6-2", player),
+            "Bonus 6-3": lambda state, player=player: state.has("Bonus 6-3", player),
         }
     )
 
-    world.multiworld.completion_condition[world.player] = lambda state: state.has("Kiss From Rabbit", player=player)
+    world.multiworld.completion_condition[world.player] = lambda state, player=player: state.has("Kiss From Rabbit", player)
     
