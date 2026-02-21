@@ -208,4 +208,4 @@ class GrappleDogWorld(World):
         create_rules(self)
 
     def get_filler_item_name(self) -> str:
-        return "Dog Biscuit"        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_one.value)
+        return "Dog Biscuit"
