@@ -376,12 +376,12 @@ def create_rules(world: "GrappleDogWorld"):
     multiworld.get_region("Game", player).add_exits(
         [ "World 1", "World 2", "World 3", "World 4", "World 5", "World 6" ],
         {
-            "World 1": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 1", player),
-            "World 2": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 2", player),
-            "World 3": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 3", player),
-            "World 4": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 4", player),
-            "World 5": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 5", player),
-            "World 6": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 6", player)
+            #"World 1": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 1", player),
+            #"World 2": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 2", player),
+            #"World 3": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 3", player),
+            #"World 4": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 4", player),
+            #"World 5": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 5", player),
+            #"World 6": lambda state, player=player: world.options.level_progression.value == 0 or state.has("World 6", player)
         }
     )
     
