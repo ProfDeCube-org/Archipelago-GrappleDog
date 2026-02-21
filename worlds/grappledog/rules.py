@@ -348,13 +348,13 @@ def create_rules(world: "GrappleDogWorld"):
     player = world.player
     options = world.options
     if(world.options.speedrunner_count_one.value > 0):
-        multiworld.get_location('Speedrun (1 Gold)', player).access_rule = lambda state, player=player, options=options: state.has_group("Levels", player, max(0, min(33, options.speedrunner_count_one.value * 3))) & evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
+        multiworld.get_location('Speedrun (1 Gold)', player).access_rule = lambda state, player=player, options=options: state.has_group("Levels", player, max(1, min(33, options.speedrunner_count_one.value * options.speedrunner_choice_multiplier.value))) and ((options.movement_rando == False and state.has("Grapple Hook", player)) or evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player))
         
     if(world.options.speedrunner_count_two.value > 0):
-        multiworld.get_location('Speedrun (2 Gold)', player).access_rule = lambda state, player=player, options=options: state.has_group("Levels", player, max(0, min(33, options.speedrunner_count_two.value * 3))) & evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
+        multiworld.get_location('Speedrun (2 Gold)', player).access_rule = lambda state, player=player, options=options: state.has_group("Levels", player, max(1, min(33, options.speedrunner_count_two.value * options.speedrunner_choice_multiplier.value))) and ((options.movement_rando == False and state.has("Grapple Hook", player)) or evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player))
         
     if(world.options.speedrunner_count_three.value > 0):
-        multiworld.get_location('Speedrun (3 Gold)', player).access_rule = lambda state, player=player, options=options: state.has_group("Levels", player, max(0, min(33, options.speedrunner_count_three.value * 3))) & evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
+        multiworld.get_location('Speedrun (3 Gold)', player).access_rule = lambda state, player=player, options=options: state.has_group("Levels", player, max(1, min(33, options.speedrunner_count_three.value * options.speedrunner_choice_multiplier.value))) and ((options.movement_rando == False and state.has("Grapple Hook", player)) or evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player))
 
     multiworld.get_region("Menu", player).add_exits(['Game'])
     multiworld.get_region("Game", player).add_exits(
