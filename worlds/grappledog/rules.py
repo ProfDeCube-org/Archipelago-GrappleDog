@@ -347,8 +347,8 @@ def create_rules(world: "GrappleDogWorld"):
     multiworld = world.multiworld
     player = world.player
     options = world.options
-    speed_one_l_count = max(1, min(33, options.speedrunner_count_one.value * options.speedrunner_choice_multiplier.value))
-    speed_two_l_count = max(1, min(33, options.speedrunner_count_two.value * options.speedrunner_choice_multiplier.value))
+    speed_one_l_count = max(1, min(11, options.speedrunner_count_one.value * options.speedrunner_choice_multiplier.value))
+    speed_two_l_count = max(1, min(22, options.speedrunner_count_two.value * options.speedrunner_choice_multiplier.value))
     speed_three_l_count = max(1, min(33, options.speedrunner_count_three.value * options.speedrunner_choice_multiplier.value))
     
     if(options.movement_rando):
