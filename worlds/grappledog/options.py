@@ -34,8 +34,6 @@ class LevelProgression(Choice):
     display_name = "WIP: Level Progression"
     default = 0
     option_fully_random = 0
-    option_world_logic = 1
-    option_world_fixed = 2
     
 class StartWithHook(DefaultOnToggle):
     """Whether you start with the hook"""
@@ -208,8 +206,8 @@ class GrappleDogOptions(PerGameCommonOptions):
     goal: Goal
     check_banking: CheckBanking
     randomise_gadgets: RandomiseGadgets
-    unlockable_double_jump: UnlockableDoubleJump
-    double_jump_refresh: DoubleJumpRefresh
+    # unlockable_double_jump: UnlockableDoubleJump
+    # double_jump_refresh: DoubleJumpRefresh
     start_with_hook: StartWithHook
     movement_rando: MovementRando
     starting_levels: StartingLevels
