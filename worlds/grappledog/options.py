@@ -166,35 +166,35 @@ class GemsForBossOne(Range):
     display_name = "Boss 1 Gems Needed"
     range_start = 0
     default = 25
-    range_end = 300
+    range_end = 200
     
 class GemsForBossTwo(Range):
     """How many gems are needed to play level 2-B"""
     display_name = "Boss 2 Gems Needed"
     range_start = 0
     default = 40
-    range_end = 300
+    range_end = 200
     
 class GemsForBossThree(Range):
     """How many gems are needed to play level 3-B"""
     display_name = "Boss 3 Gems Needed"
     range_start = 0
     default = 80
-    range_end = 300
+    range_end = 200
     
 class GemsForBossFour(Range):
     """How many gems are needed to play level 4-B"""
     display_name = "Boss 4 Gems Needed"
     range_start = 0
     default = 120
-    range_end = 300
+    range_end = 200
     
 class GemsForBossFive(Range):
     """How many gems are needed to play level 5-B"""
     display_name = "Boss 5 Gems Needed"
     range_start = 0
     default = 190
-    range_end = 300
+    range_end = 200
     
 class RequireGadgetsForFinalBoss(DefaultOnToggle):
     """Whether the 4 gadgets are required to play level 5-B"""
