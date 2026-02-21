@@ -1,7 +1,4 @@
-# This workflow will create a release and store builds to it when an x.y.z tag is pushed
-
-name: Release
-
+name: Release APWorld
 on:
   push:
     tags:
