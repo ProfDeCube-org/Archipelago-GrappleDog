@@ -103,6 +103,7 @@ class GrappleDogWorld(World):
         self.starting_items = []
         item_pool: List[GrappleDogItem] = []
         level_items = []
+        levels_to_pick_from = all_levels.copy()
         
         if(self.options.start_with_hook):
             self.multiworld.push_precollected(self.create_item('Grapple Hook'))
@@ -110,18 +111,18 @@ class GrappleDogWorld(World):
             self.multiworld.push_precollected(self.create_item('Max Health Up'))
         if(self.options.boss_level_unlock == 0):
             self.multiworld.push_precollected(self.create_item('Level 1-B'))
-            all_levels.remove('Level 1-B')
+            levels_to_pick_from.remove('Level 1-B')
             self.multiworld.push_precollected(self.create_item('Level 2-B'))
-            all_levels.remove('Level 2-B')
+            levels_to_pick_from.remove('Level 2-B')
             self.multiworld.push_precollected(self.create_item('Level 3-B'))
-            all_levels.remove('Level 3-B')
+            levels_to_pick_from.remove('Level 3-B')
             self.multiworld.push_precollected(self.create_item('Level 4-B'))
-            all_levels.remove('Level 4-B')
+            levels_to_pick_from.remove('Level 4-B')
             self.multiworld.push_precollected(self.create_item('Level 5-B'))
-            all_levels.remove('Level 5-B')
+            levels_to_pick_from.remove('Level 5-B')
         for i in range(self.options.starting_levels):
-            chosen_level = self.multiworld.random.choice(all_levels)
-            all_levels.remove(chosen_level)
+            chosen_level = self.multiworld.random.choice(levels_to_pick_from)
+            levels_to_pick_from.remove(chosen_level)
             self.multiworld.push_precollected(self.create_item(chosen_level))
 
         exclude = [item.name for item in self.multiworld.precollected_items[self.player]]
