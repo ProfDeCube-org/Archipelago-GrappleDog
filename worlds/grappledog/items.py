@@ -23,7 +23,7 @@ item_data_table: Dict[str, GrappleDogItemData] = {
     "Dog Biscuit": GrappleDogItemData(code=2,type=ItemClassification.filler, can_create=lambda world: False),
     "Kiss From Rabbit": GrappleDogItemData(code=3,type=ItemClassification.progression, can_create=lambda world: False),
     
-    "Grapple Hook": GrappleDogItemData(code=10,type=ItemClassification.progression | ItemClassification.useful, can_create=lambda world: world.options.movement_rando.value),
+    "Grapple Hook": GrappleDogItemData(code=10,type=ItemClassification.progression | ItemClassification.useful, can_create=lambda world: world.options.start_with_hook.value == False),
     "Double Jump": GrappleDogItemData(code=11,type=ItemClassification.useful),
     "Max Health Up": GrappleDogItemData(code=12,type=ItemClassification.useful, count=lambda world: world.options.max_health),
     
