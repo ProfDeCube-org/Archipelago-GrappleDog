@@ -19,7 +19,7 @@ class GrappleDogItemData(NamedTuple):
 
 
 item_data_table: Dict[str, GrappleDogItemData] = {
-    "Gem": GrappleDogItemData(code=1,type=ItemClassification.progression_skip_balancing, count=lambda world: world.options.minimum_gems_in_pool.value),
+    "Gem": GrappleDogItemData(code=1,type=ItemClassification.progression_deprioritized_skip_balancing, count=lambda world: world.options.minimum_gems_in_pool.value),
     "Dog Biscuit": GrappleDogItemData(code=2,type=ItemClassification.filler, can_create=lambda world: False),
     "Kiss From Rabbit": GrappleDogItemData(code=3,type=ItemClassification.progression, can_create=lambda world: False),
     
