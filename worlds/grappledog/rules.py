@@ -204,10 +204,10 @@ def evaluate_requirement(expr: str, state, player) -> bool:
         if(len(or_parts) > 1):
             part_outcome = False
             for or_part in or_parts:
-                part_outcome = part_outcome | state.has(or_part, player)
-            outcome = outcome & part_outcome
+                part_outcome = part_outcome or state.has(or_part, player)
+            outcome = outcome and part_outcome
         else:
-            outcome = outcome & state.has(part, player)
+            outcome = outcome and state.has(part, player)
     return outcome
 
 
