@@ -78,7 +78,7 @@ class MinimumGemsInPool(Range):
     display_name = "Minimum Gems in Pool"
     range_start = 0
     default = 190
-    range_end = 300
+    range_end = 200
     
 class RemainingGemUsefulness(Range):
     """WIP: Not Yet Implemented   
@@ -93,7 +93,7 @@ class FruitGemOneTarget(Range):
     display_name = "Fruit Gem 1 Target"
     range_start = 1
     default = 110
-    range_end = 250
+    range_end = 150
     
 class FruitGemTwoTarget(Range):
     """How many fruit you need to get the second fruit gem"""
@@ -129,21 +129,21 @@ class SpeedrunnerChoiceMultiplier(Range):
     """How many times more levels are required for speedrunner checks to be in logic"""
     display_name = "Speedrunner Choice Multiplier"
     range_start = 0 
-    default = 3
-    range_end = 5
+    default = 2
+    range_end = 3
     
 class SpeedrunnerCountOne(Range):
     """How many gold medals are required for the speedrunner check. (0 disables the check)"""
     display_name = "Speedrunner Golds Required"
     range_start = 0 
     default = 1
-    range_end = 33
+    range_end = 11
 class SpeedrunnerCountTwo(Range):
     """How many gold medals are required for the speedrunner check. (0 disables the check)"""
     display_name = "Speedrunner Golds Required"
     range_start = 0 
     default = 2
-    range_end = 33
+    range_end = 22
 class SpeedrunnerCountThree(Range):
     """How many gold medals are required for the speedrunner check. (0 disables the check)"""
     display_name = "Speedrunner Golds Required"
