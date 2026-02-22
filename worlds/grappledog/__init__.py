@@ -185,7 +185,7 @@ class GrappleDogWorld(World):
         gem_minimal_player_ids = {player for player in game_players if multiworld.worlds[player].options.accessibility == "minimal"}
         
         def sort_func(item: Item):
-            if item.player in gem_player_ids and item.name == "Gem":
+            if item.player in game_players and item.name == "Gem":
                 if item.player in gem_minimal_player_ids:
                     # For minimal players, place goal macguffins first. This helps prevent fill from dumping logically
                     # relevant items into unreachable locations and reducing the number of reachable locations to fewer
