@@ -3,13 +3,11 @@ import Utils
 import os
 import json
 
-from BaseClasses import LocationProgressType, Region, Tutorial, ItemClassification, Item
-from Options import OptionError
+from BaseClasses import Region, Tutorial, Item, Location, MultiWorld
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, components, icon_paths, launch as launch_component, Type
-from worlds.generic.Rules import set_rule
 from .items import GrappleDogItem, item_data_table, item_table
-from .locations import GrappleDogLocation, location_data_table, location_table, all_levels, hook_possible_locations
+from .locations import GrappleDogLocation, location_data_table, location_table, all_levels
 from .options import GrappleDogOptions, option_groups
 from .regions import region_data_table
 from .rules import create_rules, evaluate_requirement, check_fruit_for_level
@@ -181,7 +179,7 @@ class GrappleDogWorld(World):
         
         game_players = multiworld.get_game_players(cls.game)
         # Get all player IDs that have progression classification gems.
-        gem_player_ids = {player for player in game_players if multiworld.worlds[player].goal_gem_count > 0}
+        gem_player_ids = {player for player in game_players}
         # Get the player IDs of those that are using minimal accessibility.
         gem_minimal_player_ids = {player for player in game_players if multiworld.worlds[player].options.accessibility == "minimal"}
         
