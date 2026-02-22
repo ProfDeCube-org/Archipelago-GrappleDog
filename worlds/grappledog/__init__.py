@@ -168,7 +168,8 @@ class GrappleDogWorld(World):
             item_pool.append(self.create_filler())
             
         self.multiworld.itempool += item_pool
-        
+
+    @classmethod
     def stage_fill_hook(cls,
                             multiworld: MultiWorld,
                             progitempool: list[Item],
