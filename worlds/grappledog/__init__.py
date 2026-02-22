@@ -171,6 +171,45 @@ class GrappleDogWorld(World):
             
         self.multiworld.itempool += item_pool
         
+    def stage_fill_hook(cls,
+                            multiworld: MultiWorld,
+                            progitempool: list[Item],
+                            usefulitempool: list[Item],
+                            filleritempool: list[Item],
+                            fill_locations: list[Location],
+                            ) -> None:
+        
+        game_players = multiworld.get_game_players(cls.game)
+        # Get all player IDs that have progression classification gems.
+        gem_player_ids = {player for player in game_players if multiworld.worlds[player].goal_gem_count > 0}
+        # Get the player IDs of those that are using minimal accessibility.
+        gem_minimal_player_ids = {player for player in game_players if multiworld.worlds[player].options.accessibility == "minimal"}
+        
+        def sort_func(item: Item):
+            if item.player in gem_player_ids and item.name == "Gem":
+                if item.player in gem_minimal_player_ids:
+                    # For minimal players, place goal macguffins first. This helps prevent fill from dumping logically
+                    # relevant items into unreachable locations and reducing the number of reachable locations to fewer
+                    # than the number of items remaining to be placed.
+                    #
+                    # Placing only the non-required goal macguffins first or slightly more than the number of
+                    # non-required goal macguffins first was also tried, but placing all goal macguffins first seems to
+                    # give fill the best chance of succeeding.
+                    #
+                    # All sizes of gem bundles, are given the *deprioritized* classification for minimal players,
+                    # which avoids them being placed on priority locations, which would otherwise occur due to them
+                    # being sorted to be placed first.
+                    return 1
+                else:
+                    # For non-minimal players, place goal macguffins last. The helps prevent fill from filling most/all
+                    # reachable locations with the goal macguffins that are only required for the goal.
+                    return -1
+            else:
+                # Python sorting is stable, so this will leave everything else in its original order.
+                return 0
+            
+        progitempool.sort(key=sort_func)
+
 
     def create_regions(self) -> None:
         
