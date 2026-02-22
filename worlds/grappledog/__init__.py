@@ -144,9 +144,13 @@ class GrappleDogWorld(World):
                         item_pool.append(self.create_item(key))
                         
                         
-        if(not self.options.start_with_hook):
+        if(not self.options.start_with_hook.value):
             self.multiworld.early_items[self.player]["Grapple Hook"] = 1
                         
+        
+        if(self.options.movement_rando.value):
+            self.multiworld.early_items[self.player]["Wall Jump"] = 1
+            
         self.item_name_groups = {
             "Gadgets": {"Gadget 1", "Gadget 2", "Gadget 3", "Gadget 4"},
             "Worlds": {"World 1", "World 2", "World 3", "World 4", "World 5", "World 6"},
