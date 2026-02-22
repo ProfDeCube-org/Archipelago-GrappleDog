@@ -366,13 +366,13 @@ def create_rules(world: "GrappleDogWorld"):
         print(speed_two_l_count)
         print(speed_three_l_count)
         if(world.options.speedrunner_count_one.value > 0):
-            multiworld.get_location('Speedrun (1 Gold)', player).access_rule = lambda state, player=player, count=speed_one_l_count: state.has_group("Levels", player, count) and state.has("Grapple Hook", player)
+            multiworld.get_location('Speedrun (1 Gold)', player).access_rule = lambda state, player=player, count=speed_one_l_count: state.has_group("Levels", player, count)
             
         if(world.options.speedrunner_count_two.value > 0):
-            multiworld.get_location('Speedrun (2 Gold)', player).access_rule = lambda state, player=player, count=speed_two_l_count: state.has_group("Levels", player, count) and state.has("Grapple Hook", player)
+            multiworld.get_location('Speedrun (2 Gold)', player).access_rule = lambda state, player=player, count=speed_two_l_count: state.has_group("Levels", player, count)
             
         if(world.options.speedrunner_count_three.value > 0):
-            multiworld.get_location('Speedrun (3 Gold)', player).access_rule = lambda state, player=player, count=speed_three_l_count: state.has_group("Levels", player, count) and  state.has("Grapple Hook", player)
+            multiworld.get_location('Speedrun (3 Gold)', player).access_rule = lambda state, player=player, count=speed_three_l_count: state.has_group("Levels", player, count)
     
         
 
