@@ -154,9 +154,12 @@ class GrappleDogWorld(World):
             
             chosen_unwall_two = self.multiworld.random.choice(potential_early_unwalls)
             potential_early_unwalls.remove(chosen_unwall_two)
+            chosen_unwall_three = self.multiworld.random.choice(potential_early_unwalls)
+            potential_early_unwalls.remove(chosen_unwall_three)
             self.multiworld.early_items[self.player][chosen_unwall_one] = 1
             self.multiworld.early_items[self.player][chosen_unwall_two] = 1
-            
+            self.multiworld.early_items[self.player][chosen_unwall_three] = 1
+
         self.item_name_groups = {
             "Gadgets": {"Gadget 1", "Gadget 2", "Gadget 3", "Gadget 4"},
             "Worlds": {"World 1", "World 2", "World 3", "World 4", "World 5", "World 6"},
