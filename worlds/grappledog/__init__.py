@@ -152,6 +152,9 @@ class GrappleDogWorld(World):
             "Worlds": {"World 1", "World 2", "World 3", "World 4", "World 5", "World 6"},
             "Levels": tuple(level_items)
         }
+        
+        print(tuple(level_items))
+        print(tuple(level_items).count)
                         
         un_filled_loc_size = len(self.multiworld.get_unfilled_locations(self.player))
         while len(item_pool) < un_filled_loc_size:
