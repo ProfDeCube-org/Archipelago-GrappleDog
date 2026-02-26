@@ -4,7 +4,7 @@ import Utils
 import os
 import json
 
-from BaseClasses import Region, Tutorial, Item, Location, MultiWorld
+from BaseClasses import ItemClassification, Region, Tutorial, Item, Location, MultiWorld
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, components, icon_paths, launch as launch_component, Type
 from .items import GrappleDogItem, item_data_table, item_table
@@ -141,7 +141,14 @@ class GrappleDogWorld(World):
             }
                 
     def create_item(self, name: str) -> GrappleDogItem:
-        return GrappleDogItem(name, item_data_table[name].type, item_data_table[name].code, player=self.player)
+        type = item_data_table[name].type
+        if name == "Gem":
+            if self.multiworld.worlds[self.player].options.accessibility == "minimal":
+                type = ItemClassification.progression_deprioritized_skip_balancing
+            else:
+                type = ItemClassification.progression_skip_balancing
+            
+        return GrappleDogItem(name, type, item_data_table[name].code, player=self.player)
 
     @staticmethod
     def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
@@ -214,7 +221,16 @@ class GrappleDogWorld(World):
             "Have A Nap",
             "Boomerang Bandit (Score 10000)",
             "Boomerang Bandit (Score 20000)",
-            "Boomerang Bandit (Score 30000)"
+            "Boomerang Bandit (Score 30000)",
+            "Gem 1 (Bonus 1-2)",
+            "Gem 2 (Bonus 1-2)",
+            "Gem 3 (Bonus 1-2)",
+            "Gem 1 (Bonus 2-1)",
+            "Gem 2 (Bonus 2-1)",
+            "Gem 3 (Bonus 2-1)",
+            "Gem 1 (Bonus 6-3)",
+            "Gem 2 (Bonus 6-3)",
+            "Gem 3 (Bonus 6-3)",
         ]
         for no_gem_location in no_gem_locations:
             self.get_location(no_gem_location).item_rule = lambda item: item.name != 'Gem'
