@@ -57,12 +57,9 @@ class GrappleDogWorld(World):
     
 
     def generate_early(self):
-        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_one.value)
-        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_two.value)
-        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_three.value)
-        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_four.value)
-        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_five.value)
-        
+        max_boss_gems_needed = max(self.options.gems_for_boss_one.value, self.options.gems_for_boss_two.value, self.options.gems_for_boss_three.value, self.options.gems_for_boss_four.value, self.options.gems_for_boss_five.value)
+        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, max_boss_gems_needed)
+        self.extra_gems = self.options.minimum_gems_in_pool.value - max_boss_gems_needed
         
         re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if re_gen_passthrough and self.game in re_gen_passthrough:
@@ -140,13 +137,10 @@ class GrappleDogWorld(World):
                 "world_version": "0.1.0",
             }
                 
-    def create_item(self, name: str) -> GrappleDogItem:
+    def create_item(self, name: str, type_override = False) -> GrappleDogItem:
         type = item_data_table[name].type
-        if name == "Gem":
-            if self.multiworld.worlds[self.player].options.accessibility == "minimal":
-                type = ItemClassification.progression_deprioritized_skip_balancing
-            else:
-                type = ItemClassification.progression_skip_balancing
+        if type_override:
+            type = type_override
             
         return GrappleDogItem(name, type, item_data_table[name].code, player=self.player)
 
@@ -156,6 +150,7 @@ class GrappleDogWorld(World):
         return slot_data
 
     def create_items(self) -> None:
+        made_gem_count = 0
         self.starting_items = []
         item_pool: List[GrappleDogItem] = []
         level_items = []
@@ -192,7 +187,17 @@ class GrappleDogWorld(World):
                     if(key in exclude):
                         exclude.remove(key)
                     else:
-                        item_pool.append(self.create_item(key))
+                        if key == "Gem":
+                            type = ItemClassification.filler
+                            if made_gem_count < self.options.minimum_gems_in_pool.value:
+                                if self.multiworld.worlds[self.player].options.accessibility == "minimal":
+                                    type = ItemClassification.progression_deprioritized_skip_balancing
+                                else:
+                                    type = ItemClassification.progression_skip_balancing
+                            item_pool.append(self.create_item(key, type))
+                            made_gem_count += 1
+                        else:
+                            item_pool.append(self.create_item(key))
                         
                         
         if(not self.options.start_with_hook.value):
