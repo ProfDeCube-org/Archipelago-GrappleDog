@@ -124,7 +124,6 @@ class PTContext(CommonContext):
         elif cmd == "Connected":
             logger.info("=============  CONNECTED  ==============")
             
-            logger.info(json.dumps(args))
             #update tags
             async_start(self.update_tags())
             #same as roominfo except with the connected packet
@@ -181,11 +180,6 @@ class PTContext(CommonContext):
                 }]))
         #send over all other relevant received data from the server in full
         elif cmd == "DataPackage":
-            logger.info("")
-            logger.info("")
-            logger.info(json.dumps(args))
-            logger.info("")
-            logger.info("")
             args["data"]["games"]["grappledog"] = args["data"]["games"]["Grapple Dog"]
             self.server_msgs.append(encode([args]))
         elif cmd in self.relevant_packets:
@@ -252,7 +246,6 @@ async def parse_game_packets(ctx: PTContext, data):
         #connection with server is handled by proxy client already, just send back the important data
         
         elif msg["cmd"] == "Connect":
-            logger.info("new")
             # Proxy is connecting, make sure it is valid
             if msg["game"] != "Grapple Dog":
                 logger.info("Aborting proxy connection: game is not Grapple Dog")
