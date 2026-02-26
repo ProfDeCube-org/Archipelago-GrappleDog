@@ -15,4 +15,4 @@ jobs:
           apworld-path: worlds/grappledog
           ap-version: '0.6.6'
           python-version: '3.12'
-          yamls-per-run: 1
+          yamls-per-run: 2
