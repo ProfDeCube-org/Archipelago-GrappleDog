@@ -193,7 +193,7 @@ class GrappleDogWorld(World):
                         
         
         if(self.options.movement_rando.value):
-            potential_early_unwalls = ["Bonus 1-2", "Level 2-5", "Bonus 2-1", "Bonus 5-4", "Bonus 6-3", "Bounce Pads", "Swim", "Wall Jump"]
+            potential_early_unwalls = ["Bonus 1-2", "Level 2-5", "Bonus 2-1", "Bonus 6-3", "Bounce Pads", "Swim", "Wall Jump"]
             
             chosen_unwall_one = self.multiworld.random.choice(potential_early_unwalls)
             potential_early_unwalls.remove(chosen_unwall_one)
@@ -205,6 +205,20 @@ class GrappleDogWorld(World):
             self.multiworld.early_items[self.player][chosen_unwall_one] = 1
             self.multiworld.early_items[self.player][chosen_unwall_two] = 1
             self.multiworld.early_items[self.player][chosen_unwall_three] = 1
+
+        no_gem_locations = [
+            "Talk to Toni (Boat)",
+            "Talk to Professor (Boat)",
+            "Pet The Dog",
+            "Read The Credits",
+            "Have A Nap",
+            "Boomerang Bandit (Score 10000)",
+            "Boomerang Bandit (Score 20000)",
+            "Boomerang Bandit (Score 30000)"
+        ]
+        for no_gem_location in no_gem_locations:
+            self.get_location(no_gem_location).item_rule = lambda item: item.name != 'Gem'
+            # self.get_location(no_gem_location).item_rule = lambda item: item.name != 'Dog Biscuit'
 
         self.item_name_groups = {
             "Gadgets": {"Gadget 1", "Gadget 2", "Gadget 3", "Gadget 4"},
