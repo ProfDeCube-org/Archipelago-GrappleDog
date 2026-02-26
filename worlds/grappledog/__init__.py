@@ -60,7 +60,6 @@ class GrappleDogWorld(World):
         max_boss_gems_needed = max(self.options.gems_for_boss_one.value, self.options.gems_for_boss_two.value, self.options.gems_for_boss_three.value, self.options.gems_for_boss_four.value, self.options.gems_for_boss_five.value)
         self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, max_boss_gems_needed)
         self.extra_gems = self.options.minimum_gems_in_pool.value - max_boss_gems_needed
-        self.made_gem_count = 0
         
         re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if re_gen_passthrough and self.game in re_gen_passthrough:
@@ -158,6 +157,7 @@ class GrappleDogWorld(World):
         return slot_data
 
     def create_items(self) -> None:
+        self.made_gem_count = 0
         self.starting_items = []
         item_pool: List[GrappleDogItem] = []
         level_items = []
