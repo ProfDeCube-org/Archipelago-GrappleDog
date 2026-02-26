@@ -1,4 +1,5 @@
-from typing import List, Set
+from typing import Any, List, Optional, Set
+from Options import Option
 import Utils
 import os
 import json
@@ -11,14 +12,16 @@ from .locations import GrappleDogLocation, location_data_table, location_table, 
 from .options import GrappleDogOptions, option_groups
 from .regions import region_data_table
 from .rules import create_rules, evaluate_requirement, check_fruit_for_level
+from .movement_rules import movement_rules
+from .npc_sanity_rules import npc_sanity_rules
 
 def launch_client(*args: str):
     from .Client import launch
     launch_component(launch, name="PTClient", args=args)
     
     
-with open(os.path.join(os.path.dirname(__file__), 'movement_rules.json'), 'r') as file:
-    movement_rules = json.load(file)
+# with open(os.path.join(os.path.dirname(__file__), 'movement_rules.json'), 'r') as file:
+#     movement_rules = json.loads(file.read())
 
 
 components.append(Component("Grapple Dog Client", "GDClient", func=launch_client, component_type=Type.CLIENT, icon="grappledog"))
@@ -27,6 +30,7 @@ icon_paths["grappledog"] = f"ap:{__name__}/grappledog.png"
 
 class GrappleDogWebWorld(WebWorld):
     theme = "partyTime"
+    ut_can_gen_without_yaml = True
 
     setup_en = Tutorial(
         tutorial_name="Start Guide",
@@ -58,6 +62,20 @@ class GrappleDogWorld(World):
         self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_three.value)
         self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_four.value)
         self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_five.value)
+        
+        
+        re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
+        if re_gen_passthrough and self.game in re_gen_passthrough:
+            # Get the passed through slot data from the real generation
+            genned_slot_data: dict[str, Any] = re_gen_passthrough[self.game]
+
+            slot_options: dict[str, Any] = genned_slot_data.get("tracker_options", {})
+            # Set all your options here instead of getting them from the yaml
+            for key, value in slot_options.items():
+                opt: Optional[Option] = getattr(self.options, key, None)
+                if opt is not None:
+                    # You can also set .value directly but that won't work if you have OptionSets
+                    setattr(self.options, key, opt.from_any(value))
 
 
     def fill_slot_data(self):
@@ -70,11 +88,34 @@ class GrappleDogWorld(World):
                 "boss_level_unlock",
                 "require_gadgets_for_final_boss",
                 "level_progression",
-                "movement_rando"
+                "movement_rando",
+                "npc_sanity"
+            )
+            
+            grapple_dog_tracker_options = self.options.as_dict(
+                "check_banking",
+                "boss_level_unlock",
+                "require_gadgets_for_final_boss",
+                "level_progression",
+                "movement_rando",
+                "npc_sanity",
+                "fruit_gem_one_target",
+                "fruit_gem_two_target",
+                "speedrunner_count_one",
+                "speedrunner_count_two",
+                "speedrunner_count_three",
+                "gems_for_boss_one",
+                "gems_for_boss_two",
+                "gems_for_boss_three",
+                "gems_for_boss_four",
+                "gems_for_boss_five"
             )
             
             return {
                 **grapple_dog_options,
+                "tracker_options": {
+                    **grapple_dog_tracker_options,
+                },
                 "speedrun_medals": [
                     self.options.speedrunner_count_one.value,
                     self.options.speedrunner_count_two.value,
@@ -101,6 +142,11 @@ class GrappleDogWorld(World):
                 
     def create_item(self, name: str) -> GrappleDogItem:
         return GrappleDogItem(name, item_data_table[name].type, item_data_table[name].code, player=self.player)
+
+    @staticmethod
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+        # Trigger a regen in UT
+        return slot_data
 
     def create_items(self) -> None:
         self.starting_items = []
@@ -253,6 +299,10 @@ class GrappleDogWorld(World):
                 
         if(self.options.movement_rando.value):
             for location, rule in movement_rules["INSTANT"].items():
+                self.multiworld.get_location(location, self.player).access_rule = lambda state, rule=rule, player=self.player: evaluate_requirement(rule, state, player)
+        
+        if(self.options.npc_sanity.value):
+            for location, rule in npc_sanity_rules.items():
                 self.multiworld.get_location(location, self.player).access_rule = lambda state, rule=rule, player=self.player: evaluate_requirement(rule, state, player)
         
         

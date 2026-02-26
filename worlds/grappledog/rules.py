@@ -1,62 +1,11 @@
-import os
-import json
 from typing import TYPE_CHECKING
 from BaseClasses import LocationProgressType
 from worlds.generic.Rules import set_rule
-# from rules import True_, False_, Has
 
+from .fruit_rules import fruit_rules
 if TYPE_CHECKING:
     from . import GrappleDogWorld
     
-with open(os.path.join(os.path.dirname(__file__), 'fruit_rules.json'), 'r') as file:
-    fruit_rules = json.load(file)
-
-# ----------------------------
-# Boolean Requirement Compiler
-# ----------------------------
-
-# def build_rule(expr: str):
-#     """
-#     Converts a string like:
-#         "Grapple + Bounce Pads + Wall Jump || Balloons"
-#     Into a composed Rule object using:
-#         +   => And (&)
-#         ||  => Or (|)
-#     """
-
-#     expr = expr.strip()
-
-#     if not expr:
-#         return True_()
-
-#     # Split on AND first
-#     and_segments = [segment.strip() for segment in expr.split("+")]
-
-#     and_rules = []
-
-#     for segment in and_segments:
-#         # Split each AND segment into OR parts
-#         or_tokens = [token.strip() for token in segment.split("||")]
-
-#         if len(or_tokens) == 1:
-#             # Single token
-#             and_rules.append(Has(or_tokens[0]))
-#         else:
-#             # Build OR rule
-#             or_rule = Has(or_tokens[0])
-#             for token in or_tokens[1:]:
-#                 or_rule = or_rule | Has(token)
-#             and_rules.append(or_rule)
-
-#     # Combine all AND rules
-#     if not and_rules:
-#         return True_()
-
-#     rule = and_rules[0]
-#     for r in and_rules[1:]:
-#         rule = rule & r
-
-#     return rule
 
     
 def requirement_is_met(expr, available):

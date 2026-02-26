@@ -102,6 +102,10 @@ class FruitGemTwoTarget(Range):
     default = 220
     range_end = 250
     
+class NPCSanity(Toggle):
+    """WIP: Checks for chatting with NPCs"""
+    display_name = "WIP: NPCSanity"
+    
 # Misc
 
 class BoomerangScoreOne(Range):
@@ -219,6 +223,7 @@ class GrappleDogOptions(PerGameCommonOptions):
     remaining_gem_usefulness: RemainingGemUsefulness
     fruit_gem_one_target: FruitGemOneTarget
     fruit_gem_two_target: FruitGemTwoTarget
+    npc_sanity: NPCSanity
     speedrunner_choice_multiplier: SpeedrunnerChoiceMultiplier
     speedrunner_count_one: SpeedrunnerCountOne
     speedrunner_count_two: SpeedrunnerCountTwo
@@ -257,6 +262,7 @@ option_groups = [
         RemainingGemUsefulness,
         FruitGemOneTarget,
         FruitGemTwoTarget,
+        NPCSanity,
         SpeedrunnerChoiceMultiplier,
         SpeedrunnerCountOne,
         SpeedrunnerCountTwo,

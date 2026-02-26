@@ -1,4 +1,4 @@
-{
+movement_rules = {
   "INSTANT": {
     "Gem 1 (Level 1-1)": "Bounce Pads",
     "Gem 2 (Level 1-1)": "Wall Jump + Grapple Hook || Bounce Pads",

@@ -108,6 +108,13 @@ location_data_table: Dict[str, GrappleDogLocationData] = {
     "Speedrun (2 Gold)": GrappleDogLocationData(region='Game', address=62, can_create=lambda world: world.options.speedrunner_count_two.value >= 1),
     "Speedrun (3 Gold)": GrappleDogLocationData(region='Game', address=63, can_create=lambda world: world.options.speedrunner_count_three.value >= 1),
 
+    "Talk to Toni (Boat)": GrappleDogLocationData(region='Game', address=1001),
+    "Talk to Professor (Boat)": GrappleDogLocationData(region='Game', address=1002),
+    
+    "Talk to Toni (Level 1-1)": GrappleDogLocationData(region='Game', address=1010, can_create=lambda world: world.options.npc_sanity.value),
+    "Talk to Professor (Level 1-1)": GrappleDogLocationData(region='Game', address=1011, can_create=lambda world: world.options.npc_sanity.value),
+    "Talk to Goat (Level 1-1)": GrappleDogLocationData(region='Game', address=1012, can_create=lambda world: world.options.npc_sanity.value),
+
     "Gem 1 (Level 1-1)": GrappleDogLocationData(region='Level 1-1', address=10101),
     "Gem 2 (Level 1-1)": GrappleDogLocationData(region='Level 1-1', address=10102),
     "Gem 3 (Level 1-1)": GrappleDogLocationData(region='Level 1-1', address=10103),

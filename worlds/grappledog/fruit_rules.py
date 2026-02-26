@@ -1,4 +1,4 @@
-{
+fruit_rules = {
   "Level 1-1": {
     "": 16,
     "Slam": {
