@@ -57,12 +57,10 @@ class GrappleDogWorld(World):
     
 
     def generate_early(self):
-        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_one.value)
-        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_two.value)
-        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_three.value)
-        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_four.value)
-        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, self.options.gems_for_boss_five.value)
-        
+        max_boss_gems_needed = max(self.options.gems_for_boss_one.value, self.options.gems_for_boss_two.value, self.options.gems_for_boss_three.value, self.options.gems_for_boss_four.value, self.options.gems_for_boss_five.value)
+        self.options.minimum_gems_in_pool.value = max(self.options.minimum_gems_in_pool.value, max_boss_gems_needed)
+        self.extra_gems = self.options.minimum_gems_in_pool.value - max_boss_gems_needed
+        self.made_gem_count = 0
         
         re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if re_gen_passthrough and self.game in re_gen_passthrough:
@@ -143,10 +141,14 @@ class GrappleDogWorld(World):
     def create_item(self, name: str) -> GrappleDogItem:
         type = item_data_table[name].type
         if name == "Gem":
-            if self.multiworld.worlds[self.player].options.accessibility == "minimal":
-                type = ItemClassification.progression_deprioritized_skip_balancing
+            if self.made_gem_count >= self.options.minimum_gems_in_pool.value:
+                type = ItemClassification.filler
             else:
-                type = ItemClassification.progression_skip_balancing
+                self.made_gem_count += 1 
+                if self.multiworld.worlds[self.player].options.accessibility == "minimal":
+                    type = ItemClassification.progression_deprioritized_skip_balancing
+                else:
+                    type = ItemClassification.progression_skip_balancing
             
         return GrappleDogItem(name, type, item_data_table[name].code, player=self.player)
 
