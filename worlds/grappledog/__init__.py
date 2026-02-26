@@ -301,9 +301,9 @@ class GrappleDogWorld(World):
             for location, rule in movement_rules["INSTANT"].items():
                 self.multiworld.get_location(location, self.player).access_rule = lambda state, rule=rule, player=self.player: evaluate_requirement(rule, state, player)
         
-        if(self.options.npc_sanity.value):
-            for location, rule in npc_sanity_rules.items():
-                self.multiworld.get_location(location, self.player).access_rule = lambda state, rule=rule, player=self.player: evaluate_requirement(rule, state, player)
+            if(self.options.npc_sanity.value):
+                for location, rule in npc_sanity_rules.items():
+                    self.multiworld.get_location(location, self.player).access_rule = lambda state, rule=rule, player=self.player: evaluate_requirement(rule, state, player)
         
         
         self.multiworld.get_location("Defeat NUL", self.player).place_locked_item(self.create_item("Kiss From Rabbit"))
