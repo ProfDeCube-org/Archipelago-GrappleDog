@@ -24,7 +24,7 @@ def launch_client(*args: str):
 #     movement_rules = json.loads(file.read())
 
 
-components.append(Component("Grapple Dog Client", "GDClient", func=launch_client, component_type=Type.CLIENT, icon="grappledog"))
+components.append(Component("Grapple Dog Client", func=launch_client, component_type=Type.CLIENT, icon="grappledog"))
 
 icon_paths["grappledog"] = f"ap:{__name__}/grappledog.png"
 
