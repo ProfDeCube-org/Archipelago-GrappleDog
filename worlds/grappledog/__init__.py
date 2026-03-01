@@ -3,7 +3,6 @@ from Options import Option
 import Utils
 import os
 import json
-import re
 
 from BaseClasses import ItemClassification, Region, Tutorial, Item, Location, MultiWorld
 from worlds.AutoWorld import WebWorld, World
@@ -315,17 +314,17 @@ class GrappleDogWorld(World):
         self.location_name_groups = {
             "Boat": set(),
             "Bonus Coins": set(),
-            "Bonus Levels": set(),
+            "Bonuses": set(),
             "Boomerang Bandit": set(),
             "Bosses": set(),
             "Collectible Gems": set(),
             "Completions": set(),
             "Fruit Gems": set(),
             "Gems": set(),
-            "Main Levels": set(),
+            "Gold Medals": set(),
             "Levels": set(),
-            "Medals": set(),
-            "NPCs": set()
+            "NPCs": set(),
+            "Stages": set(),
         }
 
         # Create regions.
@@ -341,13 +340,13 @@ class GrappleDogWorld(World):
                     continue
                 region.add_locations({location_name: location_data.address}, GrappleDogLocation)
                 if location_name.startswith("Level"):
+                    self.location_name_groups["Stages"].add(location_name)
                     self.location_name_groups["Levels"].add(location_name)
-                    self.location_name_groups["Main Levels"].add(location_name)
                 elif location_name.startswith("Bonus"):
-                    self.location_name_groups["Levels"].add(location_name)
-                    self.location_name_groups["Bonus Levels"].add(location_name)
-                elif location_name.startswith("Medals"):
-                    self.location_name_groups["Medals"].add(location_name)
+                    self.location_name_groups["Stages"].add(location_name)
+                    self.location_name_groups["Bonuses"].add(location_name)
+                elif location_name.startswith("Gold Medals"):
+                    self.location_name_groups["Gold Medals"].add(location_name)
                     continue
                 # Only non-medal locations proceed from here
                 if location_name.startswith("Boat") or location_name == "Have A Nap":
@@ -371,15 +370,14 @@ class GrappleDogWorld(World):
                     self.location_name_groups["Fruit Gems"].add(location_name)
                     if not bool(self.options.movement_rando.value):
                         continue
-                    level: re.Match[str] | None = re.match("(Level [1-6]-[1-5B]) Fruit Gem ([1-2])", location_name)
-                    if level is None:
-                        raise RuntimeError(f"{location_name!r} unexpectedly not a Fruit Gem location")
+                    fruit_gem: str = location_name.split(" ")[-1]
                     target: int
-                    if level.group(2) == "1":
+                    if fruit_gem == "1":
                         target = self.options.fruit_gem_one_target.value
                     else:
                         target = self.options.fruit_gem_two_target.value
-                    self.multiworld.get_location(location_name, self.player).access_rule = lambda state, level=level.group(1), player=self.player, target=target: check_fruit_for_level(state, level, player) >= target
+                    level: str = " ".join(location_name.split(" ")[0:2])
+                    self.multiworld.get_location(location_name, self.player).access_rule = lambda state, level=level, player=self.player, target=target: check_fruit_for_level(state, level, player) >= target
                     # self.multiworld.get_location(location_name, self.player).access_rule = lambda state, player=self.player: evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Carrots + Wall Jump + Climb + Swim + Slam", state, player)
                 elif "Gem" in location_name:
                     self.location_name_groups["Gems"].add(location_name)

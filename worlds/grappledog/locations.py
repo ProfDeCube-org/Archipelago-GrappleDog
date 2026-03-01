@@ -104,9 +104,9 @@ location_data_table: Dict[str, GrappleDogLocationData] = {
     "Level 5-B Beat MECH": GrappleDogLocationData(region='Level 5-B', address=56),
     "Level 5-B Beat NUL": GrappleDogLocationData(region='Level 5-B', address=57),
 
-    "Medals Goal 1": GrappleDogLocationData(region='Game', address=61, can_create=lambda world: world.options.speedrunner_count_one.value >= 1),
-    "Medals Goal 2": GrappleDogLocationData(region='Game', address=62, can_create=lambda world: world.options.speedrunner_count_two.value >= 1),
-    "Medals Goal 3": GrappleDogLocationData(region='Game', address=63, can_create=lambda world: world.options.speedrunner_count_three.value >= 1),
+    "Gold Medals Goal 1": GrappleDogLocationData(region='Game', address=61, can_create=lambda world: world.options.speedrunner_count_one.value >= 1),
+    "Gold Medals Goal 2": GrappleDogLocationData(region='Game', address=62, can_create=lambda world: world.options.speedrunner_count_two.value >= 1),
+    "Gold Medals Goal 3": GrappleDogLocationData(region='Game', address=63, can_create=lambda world: world.options.speedrunner_count_three.value >= 1),
 
     "Boat Talk to Toni": GrappleDogLocationData(region='Game', address=1001),
     "Boat Talk to Professor": GrappleDogLocationData(region='Game', address=1002),

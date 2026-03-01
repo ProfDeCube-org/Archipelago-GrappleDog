@@ -302,22 +302,22 @@ def create_rules(world: "GrappleDogWorld"):
     
     if(options.movement_rando.value):
         if(world.options.speedrunner_count_one.value > 0):
-            multiworld.get_location('Medals Goal 1', player).access_rule = lambda state, player=player, count=speed_one_l_count: state.has_group("Levels", player, count) and evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
+            multiworld.get_location('Gold Medals Goal 1', player).access_rule = lambda state, player=player, count=speed_one_l_count: state.has_group("Levels", player, count) and evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
             
         if(world.options.speedrunner_count_two.value > 0):
-            multiworld.get_location('Medals Goal 2', player).access_rule = lambda state, player=player, count=speed_two_l_count: state.has_group("Levels", player, count) and evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
+            multiworld.get_location('Gold Medals Goal 2', player).access_rule = lambda state, player=player, count=speed_two_l_count: state.has_group("Levels", player, count) and evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
             
         if(world.options.speedrunner_count_three.value > 0):
-            multiworld.get_location('Medals Goal 3', player).access_rule = lambda state, player=player, count=speed_three_l_count: state.has_group("Levels", player, count) and evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
+            multiworld.get_location('Gold Medals Goal 3', player).access_rule = lambda state, player=player, count=speed_three_l_count: state.has_group("Levels", player, count) and evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Wall Jump + Climb + Swim + Slam", state, player)
     else:
         if(world.options.speedrunner_count_one.value > 0):
-            multiworld.get_location('Medals Goal 1', player).access_rule = lambda state, player=player, count=speed_one_l_count: (state.has("Grapple Hook", player) and state.has_group("Levels", player, count) )
+            multiworld.get_location('Gold Medals Goal 1', player).access_rule = lambda state, player=player, count=speed_one_l_count: (state.has("Grapple Hook", player) and state.has_group("Levels", player, count) )
             
         if(world.options.speedrunner_count_two.value > 0):
-            multiworld.get_location('Medals Goal 2', player).access_rule = lambda state, player=player, count=speed_two_l_count: (state.has("Grapple Hook", player) and state.has_group("Levels", player, count) )
+            multiworld.get_location('Gold Medals Goal 2', player).access_rule = lambda state, player=player, count=speed_two_l_count: (state.has("Grapple Hook", player) and state.has_group("Levels", player, count) )
             
         if(world.options.speedrunner_count_three.value > 0):
-            multiworld.get_location('Medals Goal 3', player).access_rule = lambda state, player=player, count=speed_three_l_count: (state.has("Grapple Hook", player) and state.has_group("Levels", player, count) )
+            multiworld.get_location('Gold Medals Goal 3', player).access_rule = lambda state, player=player, count=speed_three_l_count: (state.has("Grapple Hook", player) and state.has_group("Levels", player, count) )
     
         
 
