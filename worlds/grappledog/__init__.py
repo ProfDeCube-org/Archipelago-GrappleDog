@@ -227,40 +227,42 @@ class GrappleDogWorld(World):
             "Boomerang Bandit Score Goal 1",
             "Boomerang Bandit Score Goal 2",
             "Boomerang Bandit Score Goal 3",
-            "Bonus 1-2 Gem 1",
-            "Bonus 1-2 Gem 2",
-            "Bonus 1-2 Gem 3",
-            "Bonus 2-1 Gem 1",
-            "Bonus 2-1 Gem 2",
-            "Bonus 2-1 Gem 3",
-            "Bonus 6-3 Gem 1",
-            "Bonus 6-3 Gem 2",
-            "Bonus 6-3 Gem 3",
+            "Bonus 1-2: Gem 1",
+            "Bonus 1-2: Gem 2",
+            "Bonus 1-2: Gem 3",
+            "Bonus 2-1: Gem 1",
+            "Bonus 2-1: Gem 2",
+            "Bonus 2-1: Gem 3",
+            "Bonus 6-3: Gem 1",
+            "Bonus 6-3: Gem 2",
+            "Bonus 6-3: Gem 3",
         ]
         for no_gem_location in no_gem_locations:
             self.get_location(no_gem_location).item_rule = lambda item: item.name != 'Gem'
             # self.get_location(no_gem_location).item_rule = lambda item: item.name != 'Dog Biscuit'
 
+        abilities = {"Grapple Hook", "Double Jump", "Wall Jump", "Climb", "Swim", "Slam"}
+        objects = {"Bounce Pads", "Balloons", "Cannons", "Carrots"}
         self.item_name_groups = {
-            "Abilities": {
-                "Grapple Hook", "Double Jump", "Wall Jump", "Climb", "Swim", "Slam"
-            },
-            "Objects": {"Bounce Pads", "Balloons", "Cannons", "Carrots"},
+            "Abilities": abilities,
+            "Objects": objects,
             "Gadgets": {"Cosmic Phone", "Cosmic Bulb", "Cosmic Disc", "Cosmic Battery"},
-            "World Access": {"World 1", "World 2", "World 3", "World 4", "World 5", "World 6"},
-            "Stage Access": {
-                item.name for item in item_pool if
-                item.name.startswith("Bonus") or item.name.startswith("Level")
+            "Worlds": {"World 1", "World 2", "World 3", "World 4", "World 5", "World 6"},
+            "Stages": {
+                key for key, item in item_data_table.items() if
+                key.startswith("Bonus") or key.startswith("Level")
             },
-        }
-        self.item_name_groups["Features"] = {
-            *self.item_name_groups["Abilities"], *self.item_name_groups["Objects"]
-        }
-        self.item_name_groups["Bonus Access"] = {
-            item for item in self.item_name_groups["Stage Access"] if item.startswith("Bonus")
-        }
-        self.item_name_groups["Level Access"] = {
-            item for item in self.item_name_groups["Stage Access"] if item.startswith("Level")
+            "Bonuses": {
+                key for key, item in item_data_table.items() if
+                key.startswith("Bonus")
+            },
+            "Levels": {
+                key for key, item in item_data_table.items() if
+                key.startswith("Level")
+            },
+            "Features": {
+                *abilities, *objects
+            }
         }
                         
         un_filled_loc_size = len(self.multiworld.get_unfilled_locations(self.player))
@@ -311,7 +313,7 @@ class GrappleDogWorld(World):
 
 
     def create_regions(self) -> None:
-        self.location_name_groups = {
+        location_name_groups = {
             "Boat": set(),
             "Bonus Coins": set(),
             "Bonuses": set(),
@@ -336,59 +338,60 @@ class GrappleDogWorld(World):
         for region_name, region_data in region_data_table.items():
             region = self.get_region(region_name)
             for location_name, location_data in location_data_table.items():
-                if location_data.region != region_name or not location_data.can_create(self):
-                    continue
-                region.add_locations({location_name: location_data.address}, GrappleDogLocation)
-                if location_name.startswith("Level"):
-                    self.location_name_groups["Stages"].add(location_name)
-                    self.location_name_groups["Levels"].add(location_name)
-                elif location_name.startswith("Bonus"):
-                    self.location_name_groups["Stages"].add(location_name)
-                    self.location_name_groups["Bonuses"].add(location_name)
-                elif location_name.startswith("Gold Medals"):
-                    self.location_name_groups["Gold Medals"].add(location_name)
-                    continue
-                # Only non-medal locations proceed from here
-                if location_name.startswith("Boat") or location_name == "Have A Nap":
-                    self.location_name_groups["Boat"].add(location_name)
-                elif location_name.startswith("Boomerang Bandit"):
-                    self.location_name_groups["Boat"].add(location_name)
-                    self.location_name_groups["Boomerang Bandit"].add(location_name)
-                    continue
-                elif "Talk" in location_name:
-                    self.location_name_groups["NPCs"].add(location_name)
-                    continue
-                # Only non-Boomerang Bandit and NPC locations proceed from here
-                if "Beat" in location_name:
-                    self.location_name_groups["Bosses"].add(location_name)
-                elif location_name.endswith("Bonus Coin"):
-                    self.location_name_groups["Bonus Coins"].add(location_name)
-                elif location_name.endswith("Complete"):
-                    self.location_name_groups["Completions"].add(location_name)
-                elif "Fruit Gem" in location_name:
-                    self.location_name_groups["Gems"].add(location_name)
-                    self.location_name_groups["Fruit Gems"].add(location_name)
-                    if not bool(self.options.movement_rando.value):
+                if location_data.region == region_name and location_data.can_create(self):
+                    region.add_locations({location_name: location_data.address}, GrappleDogLocation)
+                    if location_name.startswith("Level"):
+                        location_name_groups["Stages"].add(location_name)
+                        location_name_groups["Levels"].add(location_name)
+                    elif location_name.startswith("Bonus"):
+                        location_name_groups["Stages"].add(location_name)
+                        location_name_groups["Bonuses"].add(location_name)
+                    elif location_name.startswith("Gold Medals"):
+                        location_name_groups["Gold Medals"].add(location_name)
                         continue
-                    fruit_gem: str = location_name.split(" ")[-1]
-                    target: int
-                    if fruit_gem == "1":
-                        target = self.options.fruit_gem_one_target.value
-                    else:
-                        target = self.options.fruit_gem_two_target.value
-                    level: str = " ".join(location_name.split(" ")[0:2])
-                    self.multiworld.get_location(location_name, self.player).access_rule = lambda state, level=level, player=self.player, target=target: check_fruit_for_level(state, level, player) >= target
-                    # self.multiworld.get_location(location_name, self.player).access_rule = lambda state, player=self.player: evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Carrots + Wall Jump + Climb + Swim + Slam", state, player)
-                elif "Gem" in location_name:
-                    self.location_name_groups["Gems"].add(location_name)
-                    self.location_name_groups["Collectible Gems"].add(location_name)
-
+                    # Only non-medal locations proceed from here
+                    if location_name.startswith("Boat") or location_name == "Have A Nap":
+                        location_name_groups["Boat"].add(location_name)
+                    elif location_name.startswith("Boomerang Bandit"):
+                        location_name_groups["Boat"].add(location_name)
+                        location_name_groups["Boomerang Bandit"].add(location_name)
+                        continue
+                    elif "Talk" in location_name:
+                        location_name_groups["NPCs"].add(location_name)
+                        continue
+                    # Only non-Boomerang Bandit and NPC locations proceed from here
+                    if "Beat" in location_name:
+                        location_name_groups["Bosses"].add(location_name)
+                    elif location_name.endswith("Bonus Coin"):
+                        location_name_groups["Bonus Coins"].add(location_name)
+                    elif location_name.endswith("Complete"):
+                        location_name_groups["Completions"].add(location_name)
+                    elif "Fruit Gem" in location_name:
+                        location_name_groups["Gems"].add(location_name)
+                        location_name_groups["Fruit Gems"].add(location_name)
+                        if not bool(self.options.movement_rando.value):
+                            continue
+                        fruit_gem: str = location_name.split(" ")[-1]
+                        target: int
+                        if fruit_gem == "1":
+                            target = self.options.fruit_gem_one_target.value
+                        else:
+                            target = self.options.fruit_gem_two_target.value
+                        level: str = location_name.split(": ")[0]
+                        self.multiworld.get_location(location_name, self.player).access_rule = lambda state, level=level, player=self.player, target=target: check_fruit_for_level(state, level, player) >= target
+                        # self.multiworld.get_location(location_name, self.player).access_rule = lambda state, player=self.player: evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Carrots + Wall Jump + Climb + Swim + Slam", state, player)
+                    elif "Gem" in location_name:
+                        location_name_groups["Gems"].add(location_name)
+                        location_name_groups["Collectible Gems"].add(location_name)
+                    
+        self.location_name_groups = location_name_groups
+        
         if(not self.options.randomise_gadgets and self.options.require_gadgets_for_final_boss):
-                self.multiworld.get_location("Level 1-B Beat REX", self.player).place_locked_item(self.create_item("Cosmic Phone"))
-                self.multiworld.get_location("Level 2-B Beat TANK", self.player).place_locked_item(self.create_item("Cosmic Bulb"))
-                self.multiworld.get_location("Level 3-B Beat FACE", self.player).place_locked_item(self.create_item("Cosmic Disc"))
-                self.multiworld.get_location("Level 4-B Beat DRGN", self.player).place_locked_item(self.create_item("Cosmic Battery"))
-                # self.multiworld.get_location("Level 1-1 Complete", self.player).place_locked_item(self.create_item("Cosmic Battery"))
+                self.multiworld.get_location("Level 1-B: Beat REX", self.player).place_locked_item(self.create_item("Cosmic Phone"))
+                self.multiworld.get_location("Level 2-B: Beat TANK", self.player).place_locked_item(self.create_item("Cosmic Bulb"))
+                self.multiworld.get_location("Level 3-B: Beat FACE", self.player).place_locked_item(self.create_item("Cosmic Disc"))
+                self.multiworld.get_location("Level 4-B: Beat DRGN", self.player).place_locked_item(self.create_item("Cosmic Battery"))
+                # self.multiworld.get_location("Level 1-1: Complete", self.player).place_locked_item(self.create_item("Cosmic Battery"))
                 
         if(self.options.movement_rando.value):
             for location, rule in movement_rules["INSTANT"].items():
@@ -399,7 +402,7 @@ class GrappleDogWorld(World):
                     self.multiworld.get_location(location, self.player).access_rule = lambda state, rule=rule, player=self.player: evaluate_requirement(rule, state, player)
         
         
-        self.multiworld.get_location("Level 5-B Beat NUL", self.player).place_locked_item(self.create_item("Kiss From Rabbit"))
+        self.multiworld.get_location("Level 5-B: Beat NUL", self.player).place_locked_item(self.create_item("Kiss From Rabbit"))
 
     def set_rules(self):
         create_rules(self)
