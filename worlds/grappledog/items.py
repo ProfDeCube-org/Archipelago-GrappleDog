@@ -44,10 +44,10 @@ item_data_table: Dict[str, GrappleDogItemData] = {
     "Swim": GrappleDogItemData(code=38,type=ItemClassification.progression | ItemClassification.useful, can_create=lambda world: world.options.movement_rando.value),
     "Slam": GrappleDogItemData(code=39,type=ItemClassification.progression | ItemClassification.useful, can_create=lambda world: world.options.movement_rando.value),
     
-    "Gadget 1": GrappleDogItemData(code=51,type=ItemClassification.progression_skip_balancing, can_create=lambda world: world.options.require_gadgets_for_final_boss and world.options.randomise_gadgets.value),
-    "Gadget 2": GrappleDogItemData(code=52,type=ItemClassification.progression_skip_balancing, can_create=lambda world: world.options.require_gadgets_for_final_boss and world.options.randomise_gadgets.value),
-    "Gadget 3": GrappleDogItemData(code=53,type=ItemClassification.progression_skip_balancing, can_create=lambda world: world.options.require_gadgets_for_final_boss and world.options.randomise_gadgets.value),
-    "Gadget 4": GrappleDogItemData(code=54,type=ItemClassification.progression_skip_balancing, can_create=lambda world: world.options.require_gadgets_for_final_boss and world.options.randomise_gadgets.value),
+    "Cosmic Phone": GrappleDogItemData(code=51,type=ItemClassification.progression_skip_balancing, can_create=lambda world: world.options.require_gadgets_for_final_boss and world.options.randomise_gadgets.value),
+    "Cosmic Bulb": GrappleDogItemData(code=52,type=ItemClassification.progression_skip_balancing, can_create=lambda world: world.options.require_gadgets_for_final_boss and world.options.randomise_gadgets.value),
+    "Cosmic Disc": GrappleDogItemData(code=53,type=ItemClassification.progression_skip_balancing, can_create=lambda world: world.options.require_gadgets_for_final_boss and world.options.randomise_gadgets.value),
+    "Cosmic Battery": GrappleDogItemData(code=54,type=ItemClassification.progression_skip_balancing, can_create=lambda world: world.options.require_gadgets_for_final_boss and world.options.randomise_gadgets.value),
     
     "Level 1-1": GrappleDogItemData(code=101,type=ItemClassification.progression),
     "Level 1-2": GrappleDogItemData(code=102,type=ItemClassification.progression),

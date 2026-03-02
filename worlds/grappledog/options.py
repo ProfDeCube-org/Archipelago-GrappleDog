@@ -130,27 +130,27 @@ class BoomerangScoreThree(Range):
     range_end = 999999
 
 class SpeedrunnerChoiceMultiplier(Range):
-    """How many times more levels are required for speedrunner checks to be in logic"""
+    """How many times more levels are required for each gold medals goal to be in logic"""
     display_name = "Speedrunner Choice Multiplier"
     range_start = 0 
     default = 2
     range_end = 3
     
 class SpeedrunnerCountOne(Range):
-    """How many gold medals are required for the speedrunner check. (0 disables the check)"""
-    display_name = "Speedrunner Golds Required"
+    """How many gold medals are required for the Gold Medals Goal 1 check. (0 disables the check)"""
+    display_name = "Speedrunner Golds Required 1"
     range_start = 0 
     default = 1
     range_end = 11
 class SpeedrunnerCountTwo(Range):
-    """How many gold medals are required for the speedrunner check. (0 disables the check)"""
-    display_name = "Speedrunner Golds Required"
+    """How many gold medals are required for the Gold Medals Goal 2 check. (0 disables the check)"""
+    display_name = "Speedrunner Golds Required 2"
     range_start = 0 
     default = 2
     range_end = 22
 class SpeedrunnerCountThree(Range):
-    """How many gold medals are required for the speedrunner check. (0 disables the check)"""
-    display_name = "Speedrunner Golds Required"
+    """How many gold medals are required for the Gold Medals Goal 3 check. (0 disables the check)"""
+    display_name = "Speedrunner Golds Required 3"
     range_start = 0 
     default = 3
     range_end = 33
