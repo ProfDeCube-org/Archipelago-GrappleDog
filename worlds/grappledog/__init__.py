@@ -8,7 +8,7 @@ from BaseClasses import ItemClassification, Region, Tutorial, Item, Location, Mu
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, components, icon_paths, launch as launch_component, Type
 from .items import GrappleDogItem, item_data_table, item_table
-from .locations import GrappleDogLocation, location_data_table, location_table, all_levels
+from .locations import GrappleDogLocation, location_data_table, location_table, all_levels, location_groups
 from .options import GrappleDogOptions, option_groups
 from .regions import region_data_table
 from .rules import create_rules, evaluate_requirement, check_fruit_for_level
@@ -18,10 +18,6 @@ from .npc_sanity_rules import npc_sanity_rules
 def launch_client(*args: str):
     from .Client import launch
     launch_component(launch, name="PTClient", args=args)
-    
-    
-# with open(os.path.join(os.path.dirname(__file__), 'movement_rules.json'), 'r') as file:
-#     movement_rules = json.loads(file.read())
 
 
 components.append(Component("Grapple Dog Client", func=launch_client, component_type=Type.CLIENT, icon="grappledog"))
@@ -42,7 +38,7 @@ class GrappleDogWebWorld(WebWorld):
     )
     tutorials = [setup_en]
     option_groups = option_groups
-
+    
 
 class GrappleDogWorld(World):
     """A dog with a grappling hook, what more do you want"""
@@ -54,6 +50,8 @@ class GrappleDogWorld(World):
     location_name_to_id = location_table
     item_name_to_id = item_table
     starting_items = []
+    item_name_groups = {'Abilities': {'Grapple Hook', 'Climb', 'Wall Jump', 'Slam', 'Swim', 'Double Jump'}, 'Objects': {'Cannons', 'Balloons', 'Bounce Pads', 'Carrots'}, 'Gadgets': {'Cosmic Bulb', 'Cosmic Phone', 'Cosmic Battery', 'Cosmic Disc'}, 'Worlds': {'World 4', 'World 3', 'World 6', 'World 5', 'World 2', 'World 1'}, 'Stages': {'Bonus 2-2', 'Level 1-5', 'Level 3-2', 'Level 5-B', 'Level 2-2', 'Bonus 2-1', 'Level 4-5', 'Bonus 3-2', 'Level 4-1', 'Bonus 3-3', 'Level 4-B', 'Level 4-2', 'Level 3-4', 'Level 1-4', 'Level 2-4', 'Bonus 1-4', 'Level 4-3', 'Level 2-5', 'Level 4-4', 'Bonus 6-3', 'Level 1-3', 'Bonus 1-2', 'Level 2-1', 'Bonus 5-4', 'Bonus 4-3', 'Bonus 3-1', 'Level 1-1', 'Bonus 3-4', 'Bonus 5-1', 'Level 5-5', 'Level 1-B', 'Level 2-3', 'Bonus 2-4', 'Level 2-B', 'Level 3-5', 'Level 1-2', 'Bonus 4-2', 'Bonus 1-3', 'Level 6-1', 'Level 5-2', 'Level 3-1', 'Level 5-4', 'Bonus 1-1', 'Level 5-1', 'Bonus 5-2', 'Bonus 5-3', 'Level 6-3', 'Level 3-B', 'Bonus 6-1', 'Level 3-3', 'Bonus 4-4', 'Level 5-3', 'Bonus 2-3', 'Bonus 6-2', 'Bonus 4-1', 'Level 6-2'}, 'Bonuses': {'Bonus 2-2', 'Bonus 2-1', 'Bonus 3-2', 'Bonus 3-3', 'Bonus 1-4', 'Bonus 6-3', 'Bonus 1-2', 'Bonus 5-4', 'Bonus 4-3', 'Bonus 3-1', 'Bonus 5-1', 'Bonus 3-4', 'Bonus 2-4', 'Bonus 4-2', 'Bonus 1-3', 'Bonus 1-1', 'Bonus 5-2', 'Bonus 5-3', 'Bonus 6-1', 'Bonus 4-4', 'Bonus 6-2', 'Bonus 2-3', 'Bonus 4-1'}, 'Levels': {'Level 1-5', 'Level 3-2', 'Level 5-B', 'Level 2-2', 'Level 4-5', 'Level 4-1', 'Level 4-B', 'Level 4-2', 'Level 3-4', 'Level 1-4', 'Level 2-4', 'Level 4-3', 'Level 2-5', 'Level 4-4', 'Level 1-3', 'Level 2-1', 'Level 1-1', 'Level 5-5', 'Level 1-B', 'Level 2-3', 'Level 3-5', 'Level 2-B', 'Level 1-2', 'Level 6-1', 'Level 5-2', 'Level 3-1', 'Level 5-4', 'Level 5-1', 'Level 6-3', 'Level 3-B', 'Level 3-3', 'Level 5-3', 'Level 6-2'}, 'Features': {'Cannons', 'Balloons', 'Grapple Hook', 'Climb', 'Double Jump', 'Bounce Pads', 'Slam', 'Swim', 'Wall Jump', 'Carrots'}}
+    location_name_groups = location_groups
     
 
     def generate_early(self):
@@ -218,52 +216,6 @@ class GrappleDogWorld(World):
             self.multiworld.early_items[self.player][chosen_unwall_two] = 1
             self.multiworld.early_items[self.player][chosen_unwall_three] = 1
 
-        no_gem_locations = [
-            "Boat Talk to Toni",
-            "Boat Talk to Professor",
-            "Pet The Dog",
-            "Read The Credits",
-            "Have A Nap",
-            "Boomerang Bandit Score Goal 1",
-            "Boomerang Bandit Score Goal 2",
-            "Boomerang Bandit Score Goal 3",
-            "Bonus 1-2: Gem 1",
-            "Bonus 1-2: Gem 2",
-            "Bonus 1-2: Gem 3",
-            "Bonus 2-1: Gem 1",
-            "Bonus 2-1: Gem 2",
-            "Bonus 2-1: Gem 3",
-            "Bonus 6-3: Gem 1",
-            "Bonus 6-3: Gem 2",
-            "Bonus 6-3: Gem 3",
-        ]
-        for no_gem_location in no_gem_locations:
-            self.get_location(no_gem_location).item_rule = lambda item: item.name != 'Gem'
-            # self.get_location(no_gem_location).item_rule = lambda item: item.name != 'Dog Biscuit'
-
-        abilities = {"Grapple Hook", "Double Jump", "Wall Jump", "Climb", "Swim", "Slam"}
-        objects = {"Bounce Pads", "Balloons", "Cannons", "Carrots"}
-        self.item_name_groups = {
-            "Abilities": abilities,
-            "Objects": objects,
-            "Gadgets": {"Cosmic Phone", "Cosmic Bulb", "Cosmic Disc", "Cosmic Battery"},
-            "Worlds": {"World 1", "World 2", "World 3", "World 4", "World 5", "World 6"},
-            "Stages": {
-                key for key, item in item_data_table.items() if
-                key.startswith("Bonus") or key.startswith("Level")
-            },
-            "Bonuses": {
-                key for key, item in item_data_table.items() if
-                key.startswith("Bonus")
-            },
-            "Levels": {
-                key for key, item in item_data_table.items() if
-                key.startswith("Level")
-            },
-            "Features": {
-                *abilities, *objects
-            }
-        }
                         
         un_filled_loc_size = len(self.multiworld.get_unfilled_locations(self.player))
         while len(item_pool) < un_filled_loc_size:
@@ -271,63 +223,10 @@ class GrappleDogWorld(World):
             
         self.multiworld.itempool += item_pool
 
-    @classmethod
-    def stage_fill_hook(cls,
-                            multiworld: MultiWorld,
-                            progitempool: list[Item],
-                            usefulitempool: list[Item],
-                            filleritempool: list[Item],
-                            fill_locations: list[Location],
-                            ) -> None:
-        
-        game_players = multiworld.get_game_players(cls.game)
-        # Get all player IDs that have progression classification gems.
-        gem_player_ids = {player for player in game_players}
-        # Get the player IDs of those that are using minimal accessibility.
-        gem_minimal_player_ids = {player for player in game_players if multiworld.worlds[player].options.accessibility == "minimal"}
-        
-        def sort_func(item: Item):
-            if item.player in game_players and item.name == "Gem":
-                if item.player in gem_minimal_player_ids:
-                    # For minimal players, place goal macguffins first. This helps prevent fill from dumping logically
-                    # relevant items into unreachable locations and reducing the number of reachable locations to fewer
-                    # than the number of items remaining to be placed.
-                    #
-                    # Placing only the non-required goal macguffins first or slightly more than the number of
-                    # non-required goal macguffins first was also tried, but placing all goal macguffins first seems to
-                    # give fill the best chance of succeeding.
-                    #
-                    # All sizes of gem bundles, are given the *deprioritized* classification for minimal players,
-                    # which avoids them being placed on priority locations, which would otherwise occur due to them
-                    # being sorted to be placed first.
-                    return 1
-                else:
-                    # For non-minimal players, place goal macguffins last. The helps prevent fill from filling most/all
-                    # reachable locations with the goal macguffins that are only required for the goal.
-                    return -1
-            else:
-                # Python sorting is stable, so this will leave everything else in its original order.
-                return 0
-            
-        progitempool.sort(key=sort_func)
-
+    def fill_hook(self, progitempool, a, b, c,):
+        progitempool.sort(key = lambda item: item.player == self.player and item.name == "Gem")
 
     def create_regions(self) -> None:
-        location_name_groups = {
-            "Boat": set(),
-            "Bonus Coins": set(),
-            "Bonuses": set(),
-            "Boomerang Bandit": set(),
-            "Bosses": set(),
-            "Collectible Gems": set(),
-            "Completions": set(),
-            "Fruit Gems": set(),
-            "Gems": set(),
-            "Gold Medals": set(),
-            "Levels": set(),
-            "NPCs": set(),
-            "Stages": set(),
-        }
 
         # Create regions.
         for region_name in region_data_table.keys():
@@ -340,35 +239,7 @@ class GrappleDogWorld(World):
             for location_name, location_data in location_data_table.items():
                 if location_data.region == region_name and location_data.can_create(self):
                     region.add_locations({location_name: location_data.address}, GrappleDogLocation)
-                    if location_name.startswith("Level"):
-                        location_name_groups["Stages"].add(location_name)
-                        location_name_groups["Levels"].add(location_name)
-                    elif location_name.startswith("Bonus"):
-                        location_name_groups["Stages"].add(location_name)
-                        location_name_groups["Bonuses"].add(location_name)
-                    elif location_name.startswith("Gold Medals"):
-                        location_name_groups["Gold Medals"].add(location_name)
-                        continue
-                    # Only non-medal locations proceed from here
-                    if location_name.startswith("Boat") or location_name == "Have A Nap":
-                        location_name_groups["Boat"].add(location_name)
-                    elif location_name.startswith("Boomerang Bandit"):
-                        location_name_groups["Boat"].add(location_name)
-                        location_name_groups["Boomerang Bandit"].add(location_name)
-                        continue
-                    elif "Talk" in location_name:
-                        location_name_groups["NPCs"].add(location_name)
-                        continue
-                    # Only non-Boomerang Bandit and NPC locations proceed from here
-                    if "Beat" in location_name:
-                        location_name_groups["Bosses"].add(location_name)
-                    elif location_name.endswith("Bonus Coin"):
-                        location_name_groups["Bonus Coins"].add(location_name)
-                    elif location_name.endswith("Complete"):
-                        location_name_groups["Completions"].add(location_name)
-                    elif "Fruit Gem" in location_name:
-                        location_name_groups["Gems"].add(location_name)
-                        location_name_groups["Fruit Gems"].add(location_name)
+                    if "Fruit Gem" in location_name:
                         if not bool(self.options.movement_rando.value):
                             continue
                         fruit_gem: str = location_name.split(" ")[-1]
@@ -380,18 +251,12 @@ class GrappleDogWorld(World):
                         level: str = location_name.split(": ")[0]
                         self.multiworld.get_location(location_name, self.player).access_rule = lambda state, level=level, player=self.player, target=target: check_fruit_for_level(state, level, player) >= target
                         # self.multiworld.get_location(location_name, self.player).access_rule = lambda state, player=self.player: evaluate_requirement("Grapple Hook + Bounce Pads + Balloons + Cannons + Carrots + Wall Jump + Climb + Swim + Slam", state, player)
-                    elif "Gem" in location_name:
-                        location_name_groups["Gems"].add(location_name)
-                        location_name_groups["Collectible Gems"].add(location_name)
-                    
-        self.location_name_groups = location_name_groups
         
         if(not self.options.randomise_gadgets and self.options.require_gadgets_for_final_boss):
                 self.multiworld.get_location("Level 1-B: Beat REX", self.player).place_locked_item(self.create_item("Cosmic Phone"))
                 self.multiworld.get_location("Level 2-B: Beat TANK", self.player).place_locked_item(self.create_item("Cosmic Bulb"))
                 self.multiworld.get_location("Level 3-B: Beat FACE", self.player).place_locked_item(self.create_item("Cosmic Disc"))
                 self.multiworld.get_location("Level 4-B: Beat DRGN", self.player).place_locked_item(self.create_item("Cosmic Battery"))
-                # self.multiworld.get_location("Level 1-1: Complete", self.player).place_locked_item(self.create_item("Cosmic Battery"))
                 
         if(self.options.movement_rando.value):
             for location, rule in movement_rules["INSTANT"].items():
