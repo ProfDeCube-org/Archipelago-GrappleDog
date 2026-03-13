@@ -74,7 +74,7 @@ class MaxHealth(Range):
     range_end = 8
     
 class MinimumGemsInPool(Range):
-    """How much health you start with."""
+    """The minimum number of gems that will appear in the item pool"""
     display_name = "Minimum Gems in Pool"
     range_start = 0
     default = 190
@@ -93,7 +93,7 @@ class FruitGemOneTarget(Range):
     display_name = "Fruit Gem 1 Target"
     range_start = 1
     default = 110
-    range_end = 150
+    range_end = 250
     
 class FruitGemTwoTarget(Range):
     """How many fruit you need to get the second fruit gem"""
@@ -141,13 +141,13 @@ class SpeedrunnerCountOne(Range):
     display_name = "Speedrunner Golds Required 1"
     range_start = 0 
     default = 1
-    range_end = 11
+    range_end = 33
 class SpeedrunnerCountTwo(Range):
     """How many speedrun gold medals are required for the Speedrun Gold Medals: Goal 2 check. (0 disables the check)"""
     display_name = "Speedrunner Golds Required 2"
     range_start = 0 
     default = 2
-    range_end = 22
+    range_end = 33
 class SpeedrunnerCountThree(Range):
     """How many speedrun gold medals are required for the Speedrun Gold Medals: Goal 3 check. (0 disables the check)"""
     display_name = "Speedrunner Golds Required 3"
